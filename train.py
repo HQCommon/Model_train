@@ -1,32 +1,23 @@
 from ultralytics import YOLO
 import numpy as np
 import cv2 as cv
+from utils import video_Inf, img_Inf
 
-# Load a COCO-pretrained YOLOv8n model
-model = YOLO("yolov8n.pt")
+# Load a model
+model = YOLO("yolo11n.yaml")  # build a new model from YAML
+model = YOLO("yolo11n.pt")  # load a pretrained model (recommended for training)
+model = YOLO("yolo11n.yaml").load("yolo11n.pt")  # build from YAML and transfer weights
 
-# # Train the model on the COCO8 example dataset for 100 epochs
-# results = model.train(data="coco8.yaml", epochs=100, imgsz=640)
+# Train the model
+results = model.train(data="D:\\VSC\\Test_train\\use_data\\data.yaml", epochs=100, imgsz=800)
 
-# model = YOLO("test_model.pt")
-# Run inference with the YOLOv8n model on the 'bus.jpg' image
-results = model("D:\\VSC\\OpenCV\\Photos\\face.jpg")
-image = cv.imread("D:\\VSC\\OpenCV\\Photos\\face.jpg")
-
-for r in results:
-    for i, box in enumerate(r.boxes):
-        cords = box.xyxy.numpy().astype(int).tolist()
-
-        if len(cords) == 1:
-            pointer = cords[0]
-        x1, y1, x2, y2 = pointer
-
-        print(f'x1 = {x1}, y1 = {y1}, x2 = {x2}, y2 = {y2}')
-
-        cv.putText(image, f'Person {i}', (x1, y1 - 5), cv.FONT_HERSHEY_TRIPLEX, .5, (255,255,255), thickness= 1)
-        cv.rectangle(image, (x1,y1), (x2,y2), (0,250,0), thickness=2)
-        cv.imshow('Person Detect', image)
-
-cv.waitKey(0)
+metrics = model.val(data="D:\\VSC\\Test_train\\use_data\\data.yaml", plots=True)
+print(metrics.confusion_matrix.to_df())
 
 
+#            RETRAINING
+# Load the partially trained model
+# model = YOLO("path/to/last.pt")
+
+# Resume training
+# results = model.train(resume=True)
