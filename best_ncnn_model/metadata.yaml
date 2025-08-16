@@ -1,0 +1,21 @@
+description: Ultralytics best model trained on D:\VSC\Test_train\Weapon_Datasets\Handgun_with_LongGun_surv\v2\data.yaml
+author: Ultralytics
+date: '2025-08-15T01:03:14.696795'
+version: 8.3.174
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: detect
+batch: 1
+imgsz:
+- 960
+- 960
+names:
+  0: Handgun
+  1: Rifle
+  2: Shotgun
+  3: hand
+args:
+  batch: 1
+  half: false
+channels: 3

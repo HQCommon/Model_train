@@ -1,6 +1,7 @@
 import cv2 as cv 
 from ultralytics import YOLO
 
+
 # FOR IMAGES
 def img_Inf(model_use, image):
     model = YOLO(model_use)
